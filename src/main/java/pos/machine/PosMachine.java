@@ -1,6 +1,9 @@
 package pos.machine;
 
 import java.util.List;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import static pos.machine.ItemDataLoader.loadItems;
 
@@ -24,13 +27,30 @@ public class PosMachine {
   public String printReceiptFooter(long total) {
     return String.format(
       "----------------------\n" +
-        "Total: %d (yuan)\n" +
-        "**********************",
+      "Total: %d (yuan)\n" +
+      "**********************",
       total
     );
   }
 
   public String printReceipt(List<String> barcodes) {
-    return "";
+    AtomicLong total = new AtomicLong();
+    StringBuilder receipt = new StringBuilder();
+
+    barcodes
+      .stream()
+      .collect(Collectors.groupingBy(e -> e, TreeMap::new, Collectors.counting()))
+      .forEach((code, count) -> {
+        Item item = barcodeToItem(code);
+        total.addAndGet(count * item.getPrice());
+        receipt.append(printSubtotal(item, count));
+      });
+
+    String receiptHeader = "***<store earning no money>Receipt***\n";
+    String receiptFooter = printReceiptFooter(total.longValue());
+
+    receipt.insert(0, receiptHeader);
+    receipt.append(receiptFooter);
+    return receipt.toString();
   }
 }
