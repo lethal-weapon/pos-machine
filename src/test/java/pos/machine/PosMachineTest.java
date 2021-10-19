@@ -1,13 +1,13 @@
 package pos.machine;
 
 import org.junit.jupiter.api.Test;
-
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PosMachineTest {
 
   @Test
-  public void should_return_receipt() {
+  public void shouldPrintCorrectReceipt() {
     PosMachine posMachine = new PosMachine();
 
     String expected =
@@ -19,6 +19,8 @@ public class PosMachineTest {
       "Total: 24 (yuan)\n" +
       "**********************";
 
-    assertEquals(expected, posMachine.printReceipt(ItemDataLoader.loadBarcodes()));
+    List<String> barcodes = ItemDataLoader.loadBarcodes();
+    String actual = posMachine.printReceipt(barcodes);
+    assertEquals(expected, actual);
   }
 }

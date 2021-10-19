@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ItemDataLoader {
+
   public static List<Item> loadItems() {
     return Arrays.asList(
       new Item("ITEM000000", "Coca-Cola", 3),
