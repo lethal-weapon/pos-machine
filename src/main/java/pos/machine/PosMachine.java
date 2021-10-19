@@ -2,10 +2,16 @@ package pos.machine;
 
 import java.util.List;
 
+import static pos.machine.ItemDataLoader.loadItems;
+
 public class PosMachine {
 
   public Item barcodeToItem(String barcode) {
-    return null;
+    return loadItems()
+      .stream()
+      .filter(i -> i.getBarcode().equals(barcode))
+      .findFirst()
+      .get();
   }
 
   public String printSubtotal(Item item, long quantity) {
