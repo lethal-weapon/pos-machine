@@ -15,11 +15,19 @@ public class PosMachine {
   }
 
   public String printSubtotal(Item item, long quantity) {
-    return "";
+    return String.format(
+      "Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
+      item.getName(), quantity, item.getPrice(), quantity * item.getPrice()
+    );
   }
 
   public String printReceiptFooter(long total) {
-    return "";
+    return String.format(
+      "----------------------\n" +
+        "Total: %d (yuan)\n" +
+        "**********************",
+      total
+    );
   }
 
   public String printReceipt(List<String> barcodes) {
